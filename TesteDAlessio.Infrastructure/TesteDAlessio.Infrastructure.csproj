@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" Version="3.7.106.39" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.102.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TesteDAlessio.Domain.Repository\TesteDAlessio.Domain.Repository.csproj" />
+    <ProjectReference Include="..\TesteDAlessio.Domain\TesteDAlessio.Domain.Entities.csproj" />
+    <ProjectReference Include="..\TesteDAlessio.Service\TesteDAlessio.Domain.Service.csproj" />
+  </ItemGroup>
+
+</Project>

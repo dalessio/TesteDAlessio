@@ -1,0 +1,62 @@
+﻿@model TesteDAlessio.UI.WebApp.Models.ContatoModel
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Nome" class="control-label"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Telefone" class="control-label"></label>
+        <input asp-for="Telefone" class="form-control" type="tel" />
+        <span asp-validation-for="Telefone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" type="email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DataNascimento" class="control-label"></label>
+        <input asp-for="DataNascimento" class="form-control" type="date" max="@Model.MaxDataNascimento" onblur="validateDataNascimento()" />
+        <span asp-validation-for="DataNascimento" class="text-danger" id="msgDataNascimento"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Sexo" class="control-label"></label>
+        <select asp-for="Sexo" class="form-select">
+            <option value="M">M</option>
+            <option value="F">F</option>
+        </select>
+        <span asp-validation-for="Sexo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CargoId" class="control-label"></label>
+        <select asp-for="CargoId" class="form-select" asp-items="@Model.Cargos.Select(c => new SelectListItem{Value = c.Id.ToString(), Text = c.Descricao})">
+        </select>
+        <span asp-validation-for="Sexo" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+        </label>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Enviar" class="btn btn-primary" id="btnSubmit" />
+    </div>
+
+    <script>
+        function validateDataNascimento(){
+
+            document.getElementById("btnSubmit").disabled = false;
+            document.getElementById("msgDataNascimento").innerHTML = "";
+
+            let objDate = new Date();
+
+            let dataAtual = new Date(objDate.getFullYear(), objDate.getMonth(), objDate.getDay());
+            let dataNascimento = new Date(document.getElementById("DataNascimento").value);
+
+            if(dataAtual < dataNascimento) {
+                document.getElementById("msgDataNascimento").innerHTML = "Data de Nascimento Inválida!";
+                document.getElementById("btnSubmit").disabled = true;
+            }
+        }
+    </script>
