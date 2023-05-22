@@ -1,4 +1,5 @@
 using Amazon.SQS;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using TesteDAlessio.Infrastructure.DBContext;
 using TesteDAlessio.UI.WebApp.Helpers;
@@ -21,6 +22,15 @@ internal class Program
         builder.Services.AddTransient<IAWSSQSService, AWSSQSService>();
         builder.Services.AddTransient<IAWSSQSHelper, AWSSQSHelper>();
 
+        builder.Services.AddDistributedMemoryCache();
+
+        builder.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromSeconds(10);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+            options.Cookie.Name = ".TesteDAlessio.Session";
+        });
 
         var app = builder.Build();
 
@@ -39,9 +49,13 @@ internal class Program
 
         app.UseAuthorization();
 
+        app.UseAuthentication();
+
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Login}/{id?}");
+
+        SessionMiddlewareExtensions.UseSession(app);
 
         app.Run();
     }

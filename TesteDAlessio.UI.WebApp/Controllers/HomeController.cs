@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Claims;
 using TesteDAlessio.Domain.Entities;
 using TesteDAlessio.Infrastructure.DBContext;
 using TesteDAlessio.UI.WebApp.Models;
@@ -43,6 +44,9 @@ namespace TesteDAlessio.UI.WebApp.Controllers
             {
                 if (_context.Usuarios.Any(u => u.Login == usuario.Login && u.Senha == usuario.Senha))
                 {
+                    var identity = new ClaimsIdentity();
+                    this.User.AddIdentity(identity);
+
                     return RedirectToAction(nameof(Index), "Contatos");
                 }
                 else

@@ -10,7 +10,7 @@ using TesteDAlessio.Infrastructure.DBContext;
 
 namespace TesteDAlessio.UI.WebApp.Controllers
 {
-    public class CargosController : Controller
+    public class CargosController : TesteDAlessioController
     {
         private readonly TesteDAlessioDbContext _context;
 
@@ -22,7 +22,10 @@ namespace TesteDAlessio.UI.WebApp.Controllers
         // GET: Cargos
         public async Task<IActionResult> Index()
         {
-              return _context.Cargos != null ? 
+            if(!isLoginValid)
+                return RedirectToAction("Login", "Home");
+
+            return _context.Cargos != null ? 
                           View(await _context.Cargos.ToListAsync()) :
                           Problem("Entity set 'TesteDAlessioDbContext.Cargos'  is null.");
         }
@@ -30,6 +33,9 @@ namespace TesteDAlessio.UI.WebApp.Controllers
         // GET: Cargos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!isLoginValid)
+                return RedirectToAction("Login", "Home");
+
             if (id == null || _context.Cargos == null)
             {
                 return NotFound();
@@ -48,6 +54,9 @@ namespace TesteDAlessio.UI.WebApp.Controllers
         // GET: Cargos/Create
         public IActionResult Create()
         {
+            if (!isLoginValid)
+                return RedirectToAction("Login", "Home");
+
             return View();
         }
 
@@ -58,6 +67,9 @@ namespace TesteDAlessio.UI.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Descricao,Id,DataCriacao,Ativo")] Cargo cargo)
         {
+            if (!isLoginValid)
+                return RedirectToAction("Login", "Home");
+
             if (ModelState.IsValid)
             {
                 _context.Add(cargo);
@@ -70,6 +82,9 @@ namespace TesteDAlessio.UI.WebApp.Controllers
         // GET: Cargos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!isLoginValid)
+                return RedirectToAction("Login", "Home");
+
             if (id == null || _context.Cargos == null)
             {
                 return NotFound();
@@ -90,6 +105,9 @@ namespace TesteDAlessio.UI.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Descricao,Id,DataCriacao,Ativo")] Cargo cargo)
         {
+            if (!isLoginValid)
+                return RedirectToAction("Login", "Home");
+
             if (id != cargo.Id)
             {
                 return NotFound();
@@ -123,6 +141,9 @@ namespace TesteDAlessio.UI.WebApp.Controllers
         // GET: Cargos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!isLoginValid)
+                return RedirectToAction("Login", "Home");
+
             if (id == null || _context.Cargos == null)
             {
                 return NotFound();
@@ -143,6 +164,9 @@ namespace TesteDAlessio.UI.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!isLoginValid)
+                return RedirectToAction("Login", "Home");
+
             if (_context.Cargos == null)
             {
                 return Problem("Entity set 'TesteDAlessioDbContext.Cargos'  is null.");
