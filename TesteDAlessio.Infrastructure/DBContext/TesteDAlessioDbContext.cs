@@ -10,6 +10,13 @@ namespace TesteDAlessio.Infrastructure.DBContext
         : base(options)
         {
             Database.EnsureCreated();
+
+            if(this.Usuarios != null)
+                if (!this.Usuarios.Any())
+                {
+                    this.Usuarios.Add(new Usuario { Login="admin", Senha="1234", Ativo=true, DataCriacao=DateTime.Now });
+                    this.SaveChanges();
+                }
         }
 
         public DbSet<Contato> Contatos { get; set; }
